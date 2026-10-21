@@ -2,6 +2,8 @@
 
 Forecasting monthly visits to **Great Smoky Mountains National Park**, the most visited national park in the US, using 47+ years of National Park Service data, 47 years of local weather, and a dated record of park disruptions. Gateway businesses in Gatlinburg, Pigeon Forge and Cherokee plan staffing and inventory around these numbers.
 
+**[Open the live app →](https://smokies-forecast-jbl.streamlit.app/)**
+
 ![Monthly visits and 12-month forecast](reports/forecast.png)
 
 ## Results
@@ -66,7 +68,7 @@ The best model beats the simple "same month last year" baseline by only 0.17 poi
 
 ## Interactive app
 
-The Streamlit app has four tabs: the forecast with its uncertainty range, a model comparison with backtests, weather and events (effect sizes, biggest misses, event sources), and seasonality patterns.
+The [Streamlit app](https://smokies-forecast-jbl.streamlit.app/) has four tabs: the forecast with its uncertainty range, a model comparison with backtests, weather and events (effect sizes, biggest misses, event sources), and seasonality patterns.
 
 ## Run it locally
 
@@ -105,4 +107,4 @@ reports/                figures and JSON summaries
 - **Daily data:** NPS traffic counters for staffing-level forecasts.
 
 ---
-Data: National Park Service, Visitor Use Statistics; Open-Meteo historical weather archive. Analysis by Jim.
+Data: National Park Service, Visitor Use Statistics; Open-Meteo historical weather archive. Analysis by Josh.

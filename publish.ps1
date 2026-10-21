@@ -3,6 +3,8 @@
 #   Set-ExecutionPolicy -Scope Process Bypass -Force; & "$HOME\Documents\portfolio\01-smokies-forecast\publish.ps1"
 # Safe to re-run: it reuses the repo and pushes new commits.
 
+param([string]$Message = 'Update Smokies forecast project')
+
 Set-Location $PSScriptRoot
 $RepoName = 'smokies-forecast'
 $Desc = 'Forecasting monthly visits to Great Smoky Mountains National Park with NPS, weather and event data'
@@ -16,7 +18,7 @@ function Need($cmd) {
 Need git; Need gh
 
 # 1. Git identity (used as the commit author)
-if (-not (git config --global user.name))  { git config --global user.name  (Read-Host 'Name to show on your commits (e.g. Jim Smith)') }
+if (-not (git config --global user.name))  { git config --global user.name  (Read-Host 'Name to show on your commits (e.g. Josh Smith)') }
 if (-not (git config --global user.email)) { git config --global user.email (Read-Host 'Email for commits (use your GitHub email or its noreply address)') }
 
 # 2. Sign in to GitHub (opens your browser; you approve there)
@@ -33,8 +35,7 @@ if (-not (Test-Path .git)) { git init -b main | Out-Null }
 git add -A
 git diff --cached --quiet
 if ($LASTEXITCODE -ne 0) {
-    git commit -q -m 'Smokies visitation forecast: data, models, weather and event analysis, Streamlit app' `
-        -m 'NPS monthly visits 1979-2026, Open-Meteo weather, dated park disruptions, walk-forward backtests, and a Streamlit app.' `
+    git commit -q -m $Message `
         -m "Co-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>`nClaude-Session: https://claude.ai/code/session_01PfHFoCkjNUvnoyJnkeFQXP"
 }
 

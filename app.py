@@ -47,11 +47,11 @@ st.caption(
 last12 = hist.tail(12).visits.sum()
 prev12 = hist.iloc[-24:-12].visits.sum()
 c1, c2, c3, c4 = st.columns(4)
-c1.metric("Last 12 months (actual)", f"{last12/1e6:.2f}M", f"{(last12/prev12-1)*100:+.1f}% vs prior 12")
-c2.metric("Next 12 months (forecast)", f"{fc.forecast.sum()/1e6:.2f}M", f"{(fc.forecast.sum()/last12-1)*100:+.1f}%")
+c1.metric("Last 12 months", f"{last12/1e6:.2f}M", f"{(last12/prev12-1)*100:+.1f}% vs prior 12")
+c2.metric("Next 12 months", f"{fc.forecast.sum()/1e6:.2f}M", f"{(fc.forecast.sum()/last12-1)*100:+.1f}% vs last 12")
 peak = fc.loc[fc.forecast.idxmax()]
-c3.metric("Busiest forecast month", f"{peak.date:%b %Y}", f"{peak.forecast/1e6:.2f}M visits", delta_color="off")
-c4.metric("Best model error (MAPE)", f"{metrics.iloc[0].mape_all_years:.1f}%", best, delta_color="off")
+c3.metric(f"Peak: {peak.date:%b %Y}", f"{peak.forecast/1e6:.2f}M", help="Busiest month in the 12-month forecast")
+c4.metric("Model error (MAPE)", f"{metrics.iloc[0].mape_all_years:.1f}%", help=f"Best backtest model: {best}")
 
 tab1, tab2, tab3, tab4 = st.tabs(["Forecast", "Model comparison", "Weather & events", "Seasonality"])
 
@@ -62,9 +62,9 @@ with tab1:
     fig = go.Figure()
     fig.add_trace(go.Scatter(
         x=list(fc.date) + list(fc.date[::-1]), y=list(fc.high_80) + list(fc.low_80[::-1]),
-        fill="toself", fillcolor="rgba(46,125,50,0.15)", line=dict(width=0), name="80% range", hoverinfo="skip"))
-    fig.add_trace(go.Scatter(x=h.date, y=h.visits, name="Actual", line=dict(color="#37474F")))
-    fig.add_trace(go.Scatter(x=fc.date, y=fc.forecast, name=f"Forecast ({best})", line=dict(color="#2E7D32", dash="dash")))
+        fill="toself", fillcolor="rgba(67,160,71,0.25)", line=dict(width=0), name="80% range", hoverinfo="skip"))
+    fig.add_trace(go.Scatter(x=h.date, y=h.visits, name="Actual", line=dict(color="#78909C")))
+    fig.add_trace(go.Scatter(x=fc.date, y=fc.forecast, name=f"Forecast ({best})", line=dict(color="#43A047", dash="dash")))
     fig.update_layout(height=430, yaxis_title="Monthly visits", hovermode="x unified", **LAYOUT)
     st.plotly_chart(fig, use_container_width=True)
     table = fc.assign(Month=fc.date.dt.strftime("%b %Y"))[["Month", "forecast", "low_80", "high_80"]]
@@ -98,7 +98,7 @@ with tab2:
     choice = st.selectbox("Compare a model against actuals", metrics.model.tolist())
     b = bt[bt.model == choice]
     fig2 = go.Figure()
-    fig2.add_trace(go.Scatter(x=b.date, y=b.actual, name="Actual", line=dict(color="#37474F")))
+    fig2.add_trace(go.Scatter(x=b.date, y=b.actual, name="Actual", line=dict(color="#78909C")))
     fig2.add_trace(go.Scatter(x=b.date, y=b.forecast, name=choice, line=dict(color="#1565C0", dash="dash")))
     fig2.update_layout(height=380, yaxis_title="Monthly visits", hovermode="x unified", **LAYOUT)
     st.plotly_chart(fig2, use_container_width=True)
@@ -111,7 +111,7 @@ with tab3:
         "Instead it's used to **explain** past surprises. Each bar shows the estimated change in a month's visits "
         "when that month's weather is unusual for the time of year, holding everything else equal.")
     e = effects.iloc[::-1]
-    colors = ["#2E7D32" if (ce and v > 0) else ("#C62828" if ce else "#B0BEC5")
+    colors = ["#43A047" if (ce and v > 0) else ("#C62828" if ce else "#B0BEC5")
               for ce, v in zip(e.clear_effect, e.effect_pct)]
     fig5 = go.Figure(go.Bar(
         x=e.effect_pct, y=e.factor, orientation="h", marker_color=colors,
@@ -155,11 +155,11 @@ with tab4:
     recent = hist[(hist.date.dt.year >= hist.date.dt.year.max() - 10) & (hist.disrupted == 0)]
     by_month = recent.groupby(recent.date.dt.month).visits.mean().reset_index()
     by_month["Month"] = pd.to_datetime(by_month.date, format="%m").dt.strftime("%b")
-    fig3 = go.Figure(go.Bar(x=by_month.Month, y=by_month.visits, marker_color="#2E7D32"))
+    fig3 = go.Figure(go.Bar(x=by_month.Month, y=by_month.visits, marker_color="#43A047"))
     fig3.update_layout(height=360, yaxis_title="Average monthly visits (last 10 years)", margin=dict(l=10, r=10, t=10, b=10))
     st.plotly_chart(fig3, use_container_width=True)
     annual = hist[hist.date.dt.year < hist.date.dt.year.max()].groupby(hist.date.dt.year).visits.sum()
-    fig4 = go.Figure(go.Scatter(x=annual.index, y=annual.values, mode="lines+markers", line=dict(color="#37474F")))
+    fig4 = go.Figure(go.Scatter(x=annual.index, y=annual.values, mode="lines+markers", line=dict(color="#78909C")))
     fig4.update_layout(height=320, yaxis_title="Annual visits", margin=dict(l=10, r=10, t=10, b=10))
     st.plotly_chart(fig4, use_container_width=True)
     st.caption("July and October are the twin peaks: summer vacations and fall color. January is the low point.")
