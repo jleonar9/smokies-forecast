@@ -1,0 +1,11 @@
+{
+  "mape_without_weather": 8.97,
+  "mape_with_actual_weather": 8.48,
+  "mape_gain_points": 0.49,
+  "mape_gain_ci95": [
+    -0.15,
+    1.1
+  ],
+  "months_improved_pct": 54.0,
+  "months_scored": 113
+}

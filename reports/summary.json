@@ -1,0 +1,98 @@
+{
+  "best_model": "Seasonal regression + calendar",
+  "all_model_totals_12m": {
+    "Seasonal naive": 12083184,
+    "Seasonal naive + growth": 11637189,
+    "Seasonal regression": 11873058,
+    "Gradient boosting": 11860706,
+    "Ensemble": 11866882,
+    "Seasonal regression + calendar": 11574117,
+    "Gradient boosting + calendar": 11808236,
+    "Ensemble + calendar": 11691177
+  },
+  "comparisons": {
+    "best_vs_seasonal_naive": {
+      "gain_points": 0.17,
+      "ci95": [
+        -0.62,
+        0.96
+      ]
+    },
+    "calendar_vs_no_calendar_regression": {
+      "gain_points": 0.15,
+      "ci95": [
+        -0.24,
+        0.52
+      ]
+    }
+  },
+  "data_through": "2026-09",
+  "backtest": "walk-forward, 10 annual blocks Oct 2016 - Sep 2026; disrupted months (2013 shutdown, 2016 wildfire, COVID, Helene) not scored",
+  "forecast_total_12m": 11574117,
+  "metrics": [
+    {
+      "model": "Seasonal regression + calendar",
+      "mape_all_years": 8.97,
+      "mape_last_24m": 10.83,
+      "annual_total_error_pct": 6.48,
+      "months_scored": 113,
+      "note": "Adds Easter shift, weekend-day change, parking-tag policy"
+    },
+    {
+      "model": "Ensemble",
+      "mape_all_years": 8.99,
+      "mape_last_24m": 10.11,
+      "annual_total_error_pct": 6.47,
+      "months_scored": 113,
+      "note": "Average of seasonal regression and gradient boosting"
+    },
+    {
+      "model": "Ensemble + calendar",
+      "mape_all_years": 9.1,
+      "mape_last_24m": 10.54,
+      "annual_total_error_pct": 6.34,
+      "months_scored": 113,
+      "note": "Average of the two calendar-aware models"
+    },
+    {
+      "model": "Seasonal regression",
+      "mape_all_years": 9.12,
+      "mape_last_24m": 10.71,
+      "annual_total_error_pct": 6.66,
+      "months_scored": 113,
+      "note": "Ridge on log visits: month effects + lags + level"
+    },
+    {
+      "model": "Seasonal naive",
+      "mape_all_years": 9.13,
+      "mape_last_24m": 10.71,
+      "annual_total_error_pct": 5.81,
+      "months_scored": 113,
+      "note": "Same month last year"
+    },
+    {
+      "model": "Gradient boosting",
+      "mape_all_years": 10.0,
+      "mape_last_24m": 10.64,
+      "annual_total_error_pct": 6.83,
+      "months_scored": 113,
+      "note": "HistGradientBoosting on log visits with lag and calendar-month features"
+    },
+    {
+      "model": "Gradient boosting + calendar",
+      "mape_all_years": 10.1,
+      "mape_last_24m": 10.64,
+      "annual_total_error_pct": 6.69,
+      "months_scored": 113,
+      "note": "Adds Easter, weekend days, parking-tag policy"
+    },
+    {
+      "model": "Seasonal naive + growth",
+      "mape_all_years": 10.48,
+      "mape_last_24m": 11.77,
+      "annual_total_error_pct": 6.55,
+      "months_scored": 113,
+      "note": "Same month last year x trailing 12-month growth"
+    }
+  ]
+}

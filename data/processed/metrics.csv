@@ -1,0 +1,9 @@
+model,mape_all_years,mape_last_24m,annual_total_error_pct,months_scored,note
+Seasonal regression + calendar,8.97,10.83,6.48,113,"Adds Easter shift, weekend-day change, parking-tag policy"
+Ensemble,8.99,10.11,6.47,113,Average of seasonal regression and gradient boosting
+Ensemble + calendar,9.1,10.54,6.34,113,Average of the two calendar-aware models
+Seasonal regression,9.12,10.71,6.66,113,Ridge on log visits: month effects + lags + level
+Seasonal naive,9.13,10.71,5.81,113,Same month last year
+Gradient boosting,10.0,10.64,6.83,113,HistGradientBoosting on log visits with lag and calendar-month features
+Gradient boosting + calendar,10.1,10.64,6.69,113,"Adds Easter, weekend days, parking-tag policy"
+Seasonal naive + growth,10.48,11.77,6.55,113,Same month last year x trailing 12-month growth

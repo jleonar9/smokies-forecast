@@ -1,0 +1,6 @@
+factor,effect_pct,low_95,high_95,clear_effect
+"Temperature, +5 F vs normal",6.79,4.35,9.27,True
+"Rainfall, +1 inch vs normal",-0.92,-1.66,-0.09,True
+"Heavy-rain days (1+ inch), +1 day",1.51,-0.32,3.28,False
+"Snowfall, +1 inch vs normal",-0.69,-1.66,0.41,False
+"Hot days (90 F+), +1 day vs normal",-0.97,-1.76,-0.31,True
