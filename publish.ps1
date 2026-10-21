@@ -48,6 +48,13 @@ if ($LASTEXITCODE -ne 0) {
     gh repo create $RepoName --public --description $Desc --source . --remote origin --push
 } else {
     if (-not (git remote)) { git remote add origin "https://github.com/$user/$RepoName.git" }
+    # Bring in any changes made on GitHub (e.g. files added in the browser) before pushing
+    git pull --rebase --autostash origin main
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host 'Your changes and the GitHub changes overlap. Nothing was pushed. Copy the message above to Claude.' -ForegroundColor Red
+        git rebase --abort 2>$null
+        exit 1
+    }
     git push -u origin main
 }
 if ($LASTEXITCODE -ne 0) { Write-Host 'Push failed. Copy the error above to Claude.' -ForegroundColor Red; exit 1 }
